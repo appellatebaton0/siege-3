@@ -50,5 +50,6 @@ func _process(_delta: float) -> void:
 func modify() -> void:
 	if target != null and new_value != null:
 		var node = target.value()
+		
 		if node != null:
 			node.set(property, new_value.value())
