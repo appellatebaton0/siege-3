@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://2d08ont6cvi5"]
+
+[ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_8m7tw"]
+[ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_677v4"]
+[ext_resource type="Script" uid="uid://c7m8cx6r12svp" path="res://scripts/components/motion_subcomponents/motion_states/ms_mouse.gd" id="3_wvag2"]
+
+[node name="Mouse" type="Node2D" groups=["Mouse"]]
+script = ExtResource("1_8m7tw")
+metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
+
+[node name="CP_Motion" parent="." instance=ExtResource("2_677v4")]
+
+[node name="MouseMotionState" type="Node" parent="CP_Motion"]
+script = ExtResource("3_wvag2")
+metadata/_custom_type_script = "uid://c7m8cx6r12svp"

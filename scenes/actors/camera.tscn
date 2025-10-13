@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://dbpr33vcwj6ec"]
+
+[ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_j8c8b"]
+[ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_2fgqu"]
+[ext_resource type="Script" uid="uid://dkp1runwb4gyr" path="res://scripts/components/motion_subcomponents/motion_states/ms_follow.gd" id="3_0guno"]
+[ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="4_sxcib"]
+
+[node name="Camera" type="Camera2D"]
+zoom = Vector2(1.6, 1.6)
+script = ExtResource("1_j8c8b")
+
+[node name="CP_Motion" parent="." instance=ExtResource("2_2fgqu")]
+
+[node name="FollowMotionState" type="Node" parent="CP_Motion"]
+script = ExtResource("3_0guno")
+lerp_x = 0.1
+lerp_y = 0.1
+
+[node name="DynamicSingleGroupValue" type="Node" parent="CP_Motion/FollowMotionState"]
+script = ExtResource("4_sxcib")
+group_name = "Player"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"

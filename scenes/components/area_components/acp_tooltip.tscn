@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1igqa2livkd3"]
+
+[ext_resource type="Script" uid="uid://bciur05p7y6v0" path="res://scripts/components/area_components/acp_tooltip.gd" id="1_eld48"]
+[ext_resource type="Script" uid="uid://d1r6d4js1v2l7" path="res://scripts/components/cp_unrotator.gd" id="3_ij8de"]
+
+[node name="ACP_Tooltip" type="Control"]
+z_index = 4
+z_as_relative = false
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("1_eld48")
+fade_in_delay = 0.3
+collision_mask = 1
+
+[node name="CP_Unrotator" type="Node" parent="."]
+script = ExtResource("3_ij8de")
