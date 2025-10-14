@@ -1,7 +1,8 @@
+DynamicGroupValue
+Node
 DynamicManualFloatValue
 DynamicFloatColorValue
 DynamicSingleNodeValue
-Node
 DynamicManualCondition
 ModifyPropertyComponent
 Sprite2D

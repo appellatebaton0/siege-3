@@ -10,6 +10,8 @@ var last_max:float = 1.0
 var time:float = 0.0
 ## The value to multiply the response by.
 @export var response_multiplier := 1.0
+## Whether to move from 0 to the max, or the other way around.
+@export var reverse := false
 
 func _ready() -> void:
 	for child in get_children():
@@ -22,12 +24,18 @@ func _process(delta: float) -> void:
 	if max_time != null:
 		last_max = max_time.value() * max_time_multiplier
 	
-	time = move_toward(time, 0, delta)
-	
-	if time <= 0 or time > last_max:
-		time = last_max
+	if reverse:
+		time = move_toward(time, last_max, delta)
+		
+		if time >= last_max:
+			time = 0
+	else:
+		time = move_toward(time, 0, delta)
+		
+		if time <= 0 or time > last_max:
+			time = last_max
 
 func value() -> float:
 	if last_max == 0:
-		return 0.0
+		return 1.0 if reverse else 0.0
 	return (time / last_max) * response_multiplier

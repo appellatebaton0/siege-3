@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://chm3si0nicqxd"]
+[gd_scene load_steps=22 format=3 uid="uid://chm3si0nicqxd"]
 
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_jyhfs"]
@@ -12,6 +12,8 @@
 [ext_resource type="Script" uid="uid://cm02hnecokipo" path="res://scripts/dynamic_values/color/dcol_float.gd" id="8_trceg"]
 [ext_resource type="Script" uid="uid://y2s40vn51wpl" path="res://scripts/dynamic_values/float/df_distance.gd" id="9_ya4ey"]
 [ext_resource type="Script" uid="uid://dm34gcq06ckof" path="res://scripts/dynamic_values/float/df_manual.gd" id="11_a8y0u"]
+[ext_resource type="Script" uid="uid://dowhpw3v25rt4" path="res://scripts/dynamic_values/node/dn_distance.gd" id="11_jkv2x"]
+[ext_resource type="Script" uid="uid://c0rn4mlevdrf2" path="res://scripts/dynamic_values/nodes/dN_group.gd" id="12_jkv2x"]
 [ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="13_0ld40"]
 
 [sub_resource type="Gradient" id="Gradient_tbgi4"]
@@ -78,6 +80,7 @@ metadata/_custom_type_script = "uid://cm02hnecokipo"
 [node name="Timer" type="Node" parent="Player/Sprite2D/Pulse/Color"]
 script = ExtResource("8_eb6dy")
 max_time_multiplier = 0.001
+reverse = true
 
 [node name="GetDistance" type="Node" parent="Player/Sprite2D/Pulse/Color/Timer"]
 script = ExtResource("9_ya4ey")
@@ -87,10 +90,15 @@ script = ExtResource("6_85g3d")
 node = NodePath("../../../../../..")
 metadata/_custom_type_script = "uid://vflwvin64hae"
 
-[node name="GetEnemy" type="Node" parent="Player/Sprite2D/Pulse/Color/Timer/GetDistance" node_paths=PackedStringArray("node")]
-script = ExtResource("6_85g3d")
-node = NodePath("../../../../../../../Enemy")
-metadata/_custom_type_script = "uid://vflwvin64hae"
+[node name="ClosestEnemy" type="Node" parent="Player/Sprite2D/Pulse/Color/Timer/GetDistance" node_paths=PackedStringArray("to")]
+script = ExtResource("11_jkv2x")
+to = NodePath("../GetPlayer")
+type = 0
+
+[node name="Enemies" type="Node" parent="Player/Sprite2D/Pulse/Color/Timer/GetDistance/ClosestEnemy"]
+script = ExtResource("12_jkv2x")
+group_name = "Enemy"
+metadata/_custom_type_script = "uid://c0rn4mlevdrf2"
 
 [node name="1" type="Node" parent="Player/Sprite2D/Pulse/Color"]
 script = ExtResource("11_a8y0u")
@@ -113,6 +121,46 @@ linear_follow = Vector2(0.8, 0.8)
 metadata/_custom_type_script = "uid://dkp1runwb4gyr"
 
 [node name="DynamicSingleGroupValue" type="Node" parent="Enemy/CP_Motion/FollowMotionState"]
+script = ExtResource("13_0ld40")
+group_name = "Player"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
+[node name="Enemy2" type="Node2D" parent="." groups=["Enemy"]]
+position = Vector2(356, 359)
+script = ExtResource("1_sugp2")
+metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
+
+[node name="CP_Sprite" parent="Enemy2" instance=ExtResource("4_jyhfs")]
+texture = SubResource("GradientTexture2D_tipki")
+
+[node name="CP_Motion" parent="Enemy2" instance=ExtResource("2_jyhfs")]
+
+[node name="FollowMotionState" type="Node" parent="Enemy2/CP_Motion"]
+script = ExtResource("5_tefeu")
+linear_follow = Vector2(0.8, 0.8)
+metadata/_custom_type_script = "uid://dkp1runwb4gyr"
+
+[node name="DynamicSingleGroupValue" type="Node" parent="Enemy2/CP_Motion/FollowMotionState"]
+script = ExtResource("13_0ld40")
+group_name = "Player"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
+[node name="Enemy3" type="Node2D" parent="." groups=["Enemy"]]
+position = Vector2(-364, -94)
+script = ExtResource("1_sugp2")
+metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
+
+[node name="CP_Sprite" parent="Enemy3" instance=ExtResource("4_jyhfs")]
+texture = SubResource("GradientTexture2D_tipki")
+
+[node name="CP_Motion" parent="Enemy3" instance=ExtResource("2_jyhfs")]
+
+[node name="FollowMotionState" type="Node" parent="Enemy3/CP_Motion"]
+script = ExtResource("5_tefeu")
+linear_follow = Vector2(0.8, 0.8)
+metadata/_custom_type_script = "uid://dkp1runwb4gyr"
+
+[node name="DynamicSingleGroupValue" type="Node" parent="Enemy3/CP_Motion/FollowMotionState"]
 script = ExtResource("13_0ld40")
 group_name = "Player"
 metadata/_custom_type_script = "uid://dxshna2yqd87i"
