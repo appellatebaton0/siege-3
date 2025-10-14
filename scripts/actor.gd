@@ -63,7 +63,6 @@ func get_actors(depth:int = 4, with:Node = self) -> Array[Actor]:
 	# etc etc.
 
 func _init() -> void:
-	
 	# If a static_texture isn't specified, try
 	# to find a Sprite2D to grab one from.
 	if static_texture == null:

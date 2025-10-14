@@ -10,11 +10,13 @@ zoom = Vector2(1.6, 1.6)
 script = ExtResource("1_j8c8b")
 
 [node name="CP_Motion" parent="." instance=ExtResource("2_2fgqu")]
+motion_mode = 1
 
-[node name="FollowMotionState" type="Node" parent="CP_Motion"]
+[node name="FollowMotionState" type="Node" parent="CP_Motion" node_paths=PackedStringArray("target")]
 script = ExtResource("3_0guno")
-lerp_x = 0.1
-lerp_y = 0.1
+target = NodePath("DynamicSingleGroupValue")
+lerp_x = 0.3
+lerp_y = 0.3
 
 [node name="DynamicSingleGroupValue" type="Node" parent="CP_Motion/FollowMotionState"]
 script = ExtResource("4_sxcib")

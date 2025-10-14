@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://kq0ounbc4jwp"]
+[gd_scene load_steps=26 format=3 uid="uid://kq0ounbc4jwp"]
 
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_ypltb"]
 [ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_nmlhc"]
@@ -15,6 +15,10 @@
 [ext_resource type="Script" uid="uid://dowhpw3v25rt4" path="res://scripts/dynamic_values/node/dn_distance.gd" id="11_j3wsw"]
 [ext_resource type="Script" uid="uid://c0rn4mlevdrf2" path="res://scripts/dynamic_values/nodes/dN_group.gd" id="12_ds2sr"]
 [ext_resource type="Script" uid="uid://dm34gcq06ckof" path="res://scripts/dynamic_values/float/df_manual.gd" id="13_6xqls"]
+[ext_resource type="Script" uid="uid://cvvlcumbxn8pb" path="res://scripts/components/cp_health.gd" id="16_t62v4"]
+[ext_resource type="Script" uid="uid://bxjg885lu0c7y" path="res://scripts/components/elements/em_label.gd" id="17_uqfkb"]
+[ext_resource type="Script" uid="uid://ds82ovpm2ilwi" path="res://scripts/dynamic_values/dv_property.gd" id="18_642so"]
+[ext_resource type="Script" uid="uid://dxsyhe8y4y56p" path="res://scripts/dynamic_values/dv_spawnargument.gd" id="19_uqfkb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h5w3c"]
 size = Vector2(64, 64)
@@ -36,15 +40,19 @@ gradient = SubResource("Gradient_ya4ey")
 
 [node name="Player" type="Node2D" groups=["Player"]]
 script = ExtResource("1_ypltb")
+spawn_arguments = Dictionary[String, Variant]({
+"Score": 0
+})
 metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
 
 [node name="CP_Motion" parent="." instance=ExtResource("2_nmlhc")]
 collision_layer = 2
 collision_mask = 5
+motion_mode = 1
 
 [node name="FloatControlMotionState" type="Node" parent="CP_Motion"]
 script = ExtResource("3_h5w3c")
-max_speed = 140.0
+max_speed = 150.0
 acceleration = 20.0
 metadata/_custom_type_script = "uid://t23ay2yfroa1"
 
@@ -65,8 +73,6 @@ shape = SubResource("RectangleShape2D_0878f")
 
 [node name="CP_Sprite" parent="." instance=ExtResource("4_0878f")]
 texture = SubResource("GradientTexture2D_tefeu")
-
-[node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="EnemyBulb" type="Sprite2D" parent="."]
 position = Vector2(-33, -68)
@@ -199,3 +205,37 @@ metadata/_custom_type_script = "uid://c0rn4mlevdrf2"
 script = ExtResource("13_6xqls")
 input = 1.0
 metadata/_custom_type_script = "uid://dm34gcq06ckof"
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("16_t62v4")
+metadata/_custom_type_script = "uid://cvvlcumbxn8pb"
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="LabelElement" type="Node" parent="Label"]
+script = ExtResource("17_uqfkb")
+text_format = "{0}
+{1}"
+metadata/_custom_type_script = "uid://bxjg885lu0c7y"
+
+[node name="DynamicPropertyValue" type="Node" parent="Label/LabelElement"]
+script = ExtResource("18_642so")
+property = "health"
+metadata/_custom_type_script = "uid://ds82ovpm2ilwi"
+
+[node name="DynamicSingleNodeValue" type="Node" parent="Label/LabelElement/DynamicPropertyValue" node_paths=PackedStringArray("node")]
+script = ExtResource("6_t62v4")
+node = NodePath("../../../../HealthComponent")
+metadata/_custom_type_script = "uid://vflwvin64hae"
+
+[node name="Score" type="Node" parent="Label/LabelElement"]
+script = ExtResource("19_uqfkb")
+target_value = "Score"
+metadata/_custom_type_script = "uid://dxsyhe8y4y56p"
+
+[node name="DynamicSingleNodeValue" type="Node" parent="Label/LabelElement/Score" node_paths=PackedStringArray("node")]
+script = ExtResource("6_t62v4")
+node = NodePath("../../../..")
+metadata/_custom_type_script = "uid://vflwvin64hae"

@@ -30,8 +30,8 @@ func _ready() -> void:
 
 func active(delta:float):
 	if node != null:
-		var now := actor.to_local(actor.global_position)
-		var goal := actor.to_local(node.global_position)
+		var now := actor.global_position
+		var goal := node.global_position
 		var next:Vector2
 		
 		# Lerp follow
@@ -43,7 +43,7 @@ func active(delta:float):
 		next.y = move_toward(next.y, goal.y, linear_follow.y * (delta * 60))
 		
 		# Apply the follow.
-		actor.global_position = actor.to_global(next)
+		actor.global_position = next
 	## If the node value is null, try to fix that.
 	elif target != null:
 		if target.value() is Node2D:

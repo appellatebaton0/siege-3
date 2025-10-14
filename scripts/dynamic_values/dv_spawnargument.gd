@@ -14,7 +14,7 @@ func _ready() -> void:
 				from = child
 	
 	if from == null:
-		print(name, " is sad :(")
+		print(name, " is sad, no from :(")
 
 func value() -> Variant:
 	if from != null:

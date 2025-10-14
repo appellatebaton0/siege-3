@@ -1,2 +1,16 @@
 res://scenes/main.tscn
 res://scenes/actors/player.tscn
+res://scripts/components/cp_free.gd
+res://scenes/actors/enemy.tscn
+res://scripts/dynamic_values/dv_spawnargument.gd
+res://scripts/components/cp_modifyargument.gd
+res://scripts/components/cp_spawner.gd
+res://scripts/actor.gd
+res://scripts/components/cp_area.gd
+res://scripts/components/motion_subcomponents/motion_states/ms_follow.gd
+res://scripts/components/motion_subcomponents/motion_states/ms_float.gd
+res://scripts/components/cp_motion.gd
+res://scenes/actors/camera.tscn
+res://scripts/components/damage/dcp_single.gd
+res://scripts/components/damage/cp_damage.gd
+res://scripts/components/area_components/acp_hitbox.gd

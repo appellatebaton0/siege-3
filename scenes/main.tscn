@@ -1,10 +1,20 @@
-[gd_scene load_steps=9 format=3 uid="uid://chm3si0nicqxd"]
+[gd_scene load_steps=19 format=3 uid="uid://chm3si0nicqxd"]
 
 [ext_resource type="PackedScene" uid="uid://kq0ounbc4jwp" path="res://scenes/actors/player.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_sugp2"]
 [ext_resource type="PackedScene" uid="uid://cjbc1gs35gjc3" path="res://scenes/actors/enemy.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://dnd4kisf8wjau" path="res://scenes/components/cp_sprite.tscn" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://b7m0l4xy8303h" path="res://scenes/components/cp_area.tscn" id="5_tbgi4"]
+[ext_resource type="Script" uid="uid://d25af0viaxcrw" path="res://scripts/components/cp_free.gd" id="6_tefeu"]
+[ext_resource type="Script" uid="uid://cwf1a324oi18n" path="res://scripts/components/cp_modifyargument.gd" id="7_choun"]
+[ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="8_ya4ey"]
+[ext_resource type="Script" uid="uid://wx8iqc6tttrj" path="res://scripts/dynamic_values/int/di_modify.gd" id="9_choun"]
+[ext_resource type="Script" uid="uid://dxsyhe8y4y56p" path="res://scripts/dynamic_values/dv_spawnargument.gd" id="10_trceg"]
+[ext_resource type="Script" uid="uid://bc760wnktbcy7" path="res://scripts/dynamic_values/int/di_cast.gd" id="10_ya4ey"]
+[ext_resource type="Script" uid="uid://dqx63yibawrhf" path="res://scripts/components/cp_spawner.gd" id="12_trceg"]
+[ext_resource type="Script" uid="uid://dfmg4s4valta2" path="res://scripts/dynamic_values/scenes/ds_random.gd" id="13_a8y0u"]
+[ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="14_a8y0u"]
+[ext_resource type="PackedScene" uid="uid://dbpr33vcwj6ec" path="res://scenes/actors/camera.tscn" id="15_jkv2x"]
 
 [sub_resource type="Gradient" id="Gradient_tefeu"]
 
@@ -16,10 +26,10 @@ size = Vector2(64, 64)
 
 [node name="Main" type="Node" groups=["Main"]]
 
-[node name="Player" parent="." instance=ExtResource("1_o5qli")]
+[node name="Camera" parent="." instance=ExtResource("15_jkv2x")]
+zoom = Vector2(1, 1)
 
-[node name="Enemy" parent="." instance=ExtResource("2_0wfyh")]
-position = Vector2(-519, -74)
+[node name="Player" parent="." instance=ExtResource("1_o5qli")]
 
 [node name="Transmitter" type="Node2D" parent="." groups=["Transmitter"]]
 position = Vector2(342, 209)
@@ -30,6 +40,66 @@ metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
 texture = SubResource("GradientTexture2D_o6xl0")
 
 [node name="CP_Area" parent="Transmitter" instance=ExtResource("5_tbgi4")]
+collision_layer = 8
+collision_mask = 2
+
+[node name="FreeComponent" type="Node" parent="Transmitter/CP_Area"]
+script = ExtResource("6_tefeu")
+metadata/_custom_type_script = "uid://d25af0viaxcrw"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Transmitter/CP_Area"]
 shape = SubResource("RectangleShape2D_tipki")
+
+[node name="ModArgumentComponent" type="Node" parent="Transmitter/CP_Area" node_paths=PackedStringArray("new_value", "target")]
+script = ExtResource("7_choun")
+target_value = "Score"
+new_value = NodePath("Add1")
+target = NodePath("DynamicSingleGroupValue")
+metadata/_custom_type_script = "uid://cwf1a324oi18n"
+
+[node name="DynamicSingleGroupValue" type="Node" parent="Transmitter/CP_Area/ModArgumentComponent"]
+script = ExtResource("8_ya4ey")
+group_name = "Player"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
+[node name="Add1" type="Node" parent="Transmitter/CP_Area/ModArgumentComponent"]
+script = ExtResource("9_choun")
+amount = 1.0
+metadata/_custom_type_script = "uid://wx8iqc6tttrj"
+
+[node name="DynamicCastIntValue" type="Node" parent="Transmitter/CP_Area/ModArgumentComponent/Add1"]
+script = ExtResource("10_ya4ey")
+metadata/_custom_type_script = "uid://bc760wnktbcy7"
+
+[node name="DynamicSpawnArgumentValue" type="Node" parent="Transmitter/CP_Area/ModArgumentComponent/Add1/DynamicCastIntValue" node_paths=PackedStringArray("from")]
+script = ExtResource("10_trceg")
+from = NodePath("../../../DynamicSingleGroupValue")
+target_value = "Score"
+metadata/_custom_type_script = "uid://dxsyhe8y4y56p"
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource("1_sugp2")
+metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
+
+[node name="SpawnerComponent" type="Node2D" parent="EnemySpawner" node_paths=PackedStringArray("options_value", "main")]
+script = ExtResource("12_trceg")
+options_value = NodePath("DynamicRandomSceneValue")
+main = NodePath("DynamicSingleNodeValue")
+spawn_limit = -1
+auto_spawn = true
+spawn_signal_interval = 25.0
+spawn_interval = 25.0
+spawn_time = 24.0
+
+[node name="DynamicRandomSceneValue" type="Node" parent="EnemySpawner/SpawnerComponent"]
+script = ExtResource("13_a8y0u")
+options = Array[PackedScene]([ExtResource("2_0wfyh")])
+metadata/_custom_type_script = "uid://dfmg4s4valta2"
+
+[node name="DynamicSingleNodeValue" type="Node" parent="EnemySpawner/SpawnerComponent" node_paths=PackedStringArray("node")]
+script = ExtResource("14_a8y0u")
+node = NodePath("../../..")
+metadata/_custom_type_script = "uid://vflwvin64hae"
+
+[connection signal="freeing" from="Transmitter" to="Transmitter/CP_Area/ModArgumentComponent" method="modify"]
+[connection signal="collided" from="Transmitter/CP_Area" to="Transmitter/CP_Area/FreeComponent" method="free_actor"]
