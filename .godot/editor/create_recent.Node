@@ -1,3 +1,9 @@
+CollisionShape2D
+Actor
+DynamicModifiedFloatValue
+KnockbackAreaSubComponent
+HitboxAreaSubComponent
+HurtboxAreaSubComponent
 DynamicGroupValue
 Node
 DynamicManualFloatValue
@@ -6,8 +12,3 @@ DynamicSingleNodeValue
 DynamicManualCondition
 ModifyPropertyComponent
 Sprite2D
-DynamicSingleGroupValue
-FollowMotionState
-Camera2D
-Actor
-FloatControlMotionState

@@ -1,9 +1,2 @@
 res://scenes/main.tscn
-res://scenes/actors/mouse.tscn
-res://scripts/components/motion_subcomponents/motion_states/cms_float.gd
-res://scripts/dynamic_values/float/df_pulse.gd
-res://scripts/dynamic_values/float/df_distance.gd
-res://scripts/components/cp_modifyproperty.gd
-res://scripts/dynamic_values/color/dv_color.gd
-res://scripts/dynamic_values/color/dcol_float.gd
-res://scripts/dynamic_values/node/dn_distance.gd
+res://scenes/actors/player.tscn

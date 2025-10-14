@@ -1,0 +1,63 @@
+[gd_scene load_steps=13 format=3 uid="uid://cjbc1gs35gjc3"]
+
+[ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_c4w8v"]
+[ext_resource type="PackedScene" uid="uid://dnd4kisf8wjau" path="res://scenes/components/cp_sprite.tscn" id="2_xwavj"]
+[ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="3_nenq2"]
+[ext_resource type="Script" uid="uid://dkp1runwb4gyr" path="res://scripts/components/motion_subcomponents/motion_states/ms_follow.gd" id="4_md484"]
+[ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="5_ipns3"]
+[ext_resource type="PackedScene" uid="uid://b7m0l4xy8303h" path="res://scenes/components/cp_area.tscn" id="6_iq6g4"]
+[ext_resource type="Script" uid="uid://chjx6uy3lae5m" path="res://scripts/components/area_components/acp_hitbox.gd" id="7_gwjt0"]
+[ext_resource type="Script" uid="uid://ci1ipf7vnsa63" path="res://scripts/components/area_components/acp_knockback.gd" id="8_w7k3k"]
+
+[sub_resource type="Gradient" id="Gradient_o6xl0"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tipki"]
+gradient = SubResource("Gradient_o6xl0")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gwjt0"]
+size = Vector2(64, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w7k3k"]
+size = Vector2(66, 66)
+
+[node name="Enemy" type="Node2D" groups=["Enemy"]]
+script = ExtResource("1_c4w8v")
+metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
+
+[node name="CP_Sprite" parent="." instance=ExtResource("2_xwavj")]
+texture = SubResource("GradientTexture2D_tipki")
+
+[node name="CP_Motion" parent="." instance=ExtResource("3_nenq2")]
+collision_layer = 4
+collision_mask = 3
+
+[node name="FollowMotionState" type="Node" parent="CP_Motion"]
+script = ExtResource("4_md484")
+linear_follow = Vector2(0.8, 0.8)
+metadata/_custom_type_script = "uid://dkp1runwb4gyr"
+
+[node name="DynamicSingleGroupValue" type="Node" parent="CP_Motion/FollowMotionState"]
+script = ExtResource("5_ipns3")
+group_name = "Player"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Motion"]
+shape = SubResource("RectangleShape2D_gwjt0")
+
+[node name="CP_Area" parent="." instance=ExtResource("6_iq6g4")]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Area"]
+shape = SubResource("RectangleShape2D_w7k3k")
+
+[node name="HitboxAreaSubComponent" type="Node" parent="CP_Area"]
+script = ExtResource("7_gwjt0")
+collision_mask = 2
+metadata/_custom_type_script = "uid://chjx6uy3lae5m"
+
+[node name="KnockbackAreaSubComponent" type="Node" parent="CP_Area"]
+script = ExtResource("8_w7k3k")
+amount = 200.0
+collision_mask = 2
+metadata/_custom_type_script = "uid://ci1ipf7vnsa63"

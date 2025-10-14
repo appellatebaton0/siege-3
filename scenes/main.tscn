@@ -1,166 +1,35 @@
-[gd_scene load_steps=22 format=3 uid="uid://chm3si0nicqxd"]
+[gd_scene load_steps=9 format=3 uid="uid://chm3si0nicqxd"]
 
+[ext_resource type="PackedScene" uid="uid://kq0ounbc4jwp" path="res://scenes/actors/player.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_sugp2"]
-[ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_jyhfs"]
-[ext_resource type="Script" uid="uid://t23ay2yfroa1" path="res://scripts/components/motion_subcomponents/motion_states/cms_float.gd" id="3_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://cjbc1gs35gjc3" path="res://scenes/actors/enemy.tscn" id="2_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://dnd4kisf8wjau" path="res://scenes/components/cp_sprite.tscn" id="4_jyhfs"]
-[ext_resource type="Script" uid="uid://baaddbg8rgq1l" path="res://scripts/components/cp_modifyproperty.gd" id="5_choun"]
-[ext_resource type="Script" uid="uid://dkp1runwb4gyr" path="res://scripts/components/motion_subcomponents/motion_states/ms_follow.gd" id="5_tefeu"]
-[ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="6_85g3d"]
-[ext_resource type="Script" uid="uid://vwqwacuucle4" path="res://scripts/dynamic_values/condition/dc_manual.gd" id="7_ya4ey"]
-[ext_resource type="Script" uid="uid://8nqlfg7k3j3j" path="res://scripts/dynamic_values/float/df_pulse.gd" id="8_eb6dy"]
-[ext_resource type="Script" uid="uid://cm02hnecokipo" path="res://scripts/dynamic_values/color/dcol_float.gd" id="8_trceg"]
-[ext_resource type="Script" uid="uid://y2s40vn51wpl" path="res://scripts/dynamic_values/float/df_distance.gd" id="9_ya4ey"]
-[ext_resource type="Script" uid="uid://dm34gcq06ckof" path="res://scripts/dynamic_values/float/df_manual.gd" id="11_a8y0u"]
-[ext_resource type="Script" uid="uid://dowhpw3v25rt4" path="res://scripts/dynamic_values/node/dn_distance.gd" id="11_jkv2x"]
-[ext_resource type="Script" uid="uid://c0rn4mlevdrf2" path="res://scripts/dynamic_values/nodes/dN_group.gd" id="12_jkv2x"]
-[ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="13_0ld40"]
+[ext_resource type="PackedScene" uid="uid://b7m0l4xy8303h" path="res://scenes/components/cp_area.tscn" id="5_tbgi4"]
 
-[sub_resource type="Gradient" id="Gradient_tbgi4"]
+[sub_resource type="Gradient" id="Gradient_tefeu"]
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_tefeu"]
-gradient = SubResource("Gradient_tbgi4")
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_o6xl0"]
+gradient = SubResource("Gradient_tefeu")
 
-[sub_resource type="Gradient" id="Gradient_ya4ey"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_eb6dy"]
-gradient = SubResource("Gradient_ya4ey")
-
-[sub_resource type="Gradient" id="Gradient_o6xl0"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_tipki"]
-gradient = SubResource("Gradient_o6xl0")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tipki"]
+size = Vector2(64, 64)
 
 [node name="Main" type="Node" groups=["Main"]]
 
-[node name="Player" type="Node2D" parent="." groups=["Player"]]
+[node name="Player" parent="." instance=ExtResource("1_o5qli")]
+
+[node name="Enemy" parent="." instance=ExtResource("2_0wfyh")]
+position = Vector2(-519, -74)
+
+[node name="Transmitter" type="Node2D" parent="." groups=["Transmitter"]]
+position = Vector2(342, 209)
 script = ExtResource("1_sugp2")
 metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
 
-[node name="CP_Motion" parent="Player" instance=ExtResource("2_jyhfs")]
+[node name="CP_Sprite" parent="Transmitter" instance=ExtResource("4_jyhfs")]
+texture = SubResource("GradientTexture2D_o6xl0")
 
-[node name="FloatControlMotionState" type="Node" parent="Player/CP_Motion"]
-script = ExtResource("3_tbgi4")
-max_speed = 140.0
-acceleration = 20.0
-metadata/_custom_type_script = "uid://t23ay2yfroa1"
+[node name="CP_Area" parent="Transmitter" instance=ExtResource("5_tbgi4")]
 
-[node name="CP_Sprite" parent="Player" instance=ExtResource("4_jyhfs")]
-texture = SubResource("GradientTexture2D_tefeu")
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
-position = Vector2(3, -68)
-texture = SubResource("GradientTexture2D_eb6dy")
-
-[node name="Pulse" type="Node" parent="Player/Sprite2D" node_paths=PackedStringArray("new_value")]
-script = ExtResource("5_choun")
-property = "modulate"
-new_value = NodePath("Color")
-metadata/_custom_type_script = "uid://baaddbg8rgq1l"
-
-[node name="GetBulb" type="Node" parent="Player/Sprite2D/Pulse" node_paths=PackedStringArray("node")]
-script = ExtResource("6_85g3d")
-node = NodePath("../..")
-metadata/_custom_type_script = "uid://vflwvin64hae"
-
-[node name="Always" type="Node" parent="Player/Sprite2D/Pulse"]
-script = ExtResource("7_ya4ey")
-metadata/_custom_type_script = "uid://vwqwacuucle4"
-
-[node name="Color" type="Node" parent="Player/Sprite2D/Pulse" node_paths=PackedStringArray("red", "green", "blue", "alpha")]
-script = ExtResource("8_trceg")
-red = NodePath("1")
-green = NodePath("1")
-blue = NodePath("1")
-alpha = NodePath("Timer")
-metadata/_custom_type_script = "uid://cm02hnecokipo"
-
-[node name="Timer" type="Node" parent="Player/Sprite2D/Pulse/Color"]
-script = ExtResource("8_eb6dy")
-max_time_multiplier = 0.001
-reverse = true
-
-[node name="GetDistance" type="Node" parent="Player/Sprite2D/Pulse/Color/Timer"]
-script = ExtResource("9_ya4ey")
-
-[node name="GetPlayer" type="Node" parent="Player/Sprite2D/Pulse/Color/Timer/GetDistance" node_paths=PackedStringArray("node")]
-script = ExtResource("6_85g3d")
-node = NodePath("../../../../../..")
-metadata/_custom_type_script = "uid://vflwvin64hae"
-
-[node name="ClosestEnemy" type="Node" parent="Player/Sprite2D/Pulse/Color/Timer/GetDistance" node_paths=PackedStringArray("to")]
-script = ExtResource("11_jkv2x")
-to = NodePath("../GetPlayer")
-type = 0
-
-[node name="Enemies" type="Node" parent="Player/Sprite2D/Pulse/Color/Timer/GetDistance/ClosestEnemy"]
-script = ExtResource("12_jkv2x")
-group_name = "Enemy"
-metadata/_custom_type_script = "uid://c0rn4mlevdrf2"
-
-[node name="1" type="Node" parent="Player/Sprite2D/Pulse/Color"]
-script = ExtResource("11_a8y0u")
-input = 1.0
-metadata/_custom_type_script = "uid://dm34gcq06ckof"
-
-[node name="Enemy" type="Node2D" parent="." groups=["Enemy"]]
-position = Vector2(-562, 339)
-script = ExtResource("1_sugp2")
-metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
-
-[node name="CP_Sprite" parent="Enemy" instance=ExtResource("4_jyhfs")]
-texture = SubResource("GradientTexture2D_tipki")
-
-[node name="CP_Motion" parent="Enemy" instance=ExtResource("2_jyhfs")]
-
-[node name="FollowMotionState" type="Node" parent="Enemy/CP_Motion"]
-script = ExtResource("5_tefeu")
-linear_follow = Vector2(0.8, 0.8)
-metadata/_custom_type_script = "uid://dkp1runwb4gyr"
-
-[node name="DynamicSingleGroupValue" type="Node" parent="Enemy/CP_Motion/FollowMotionState"]
-script = ExtResource("13_0ld40")
-group_name = "Player"
-metadata/_custom_type_script = "uid://dxshna2yqd87i"
-
-[node name="Enemy2" type="Node2D" parent="." groups=["Enemy"]]
-position = Vector2(356, 359)
-script = ExtResource("1_sugp2")
-metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
-
-[node name="CP_Sprite" parent="Enemy2" instance=ExtResource("4_jyhfs")]
-texture = SubResource("GradientTexture2D_tipki")
-
-[node name="CP_Motion" parent="Enemy2" instance=ExtResource("2_jyhfs")]
-
-[node name="FollowMotionState" type="Node" parent="Enemy2/CP_Motion"]
-script = ExtResource("5_tefeu")
-linear_follow = Vector2(0.8, 0.8)
-metadata/_custom_type_script = "uid://dkp1runwb4gyr"
-
-[node name="DynamicSingleGroupValue" type="Node" parent="Enemy2/CP_Motion/FollowMotionState"]
-script = ExtResource("13_0ld40")
-group_name = "Player"
-metadata/_custom_type_script = "uid://dxshna2yqd87i"
-
-[node name="Enemy3" type="Node2D" parent="." groups=["Enemy"]]
-position = Vector2(-364, -94)
-script = ExtResource("1_sugp2")
-metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
-
-[node name="CP_Sprite" parent="Enemy3" instance=ExtResource("4_jyhfs")]
-texture = SubResource("GradientTexture2D_tipki")
-
-[node name="CP_Motion" parent="Enemy3" instance=ExtResource("2_jyhfs")]
-
-[node name="FollowMotionState" type="Node" parent="Enemy3/CP_Motion"]
-script = ExtResource("5_tefeu")
-linear_follow = Vector2(0.8, 0.8)
-metadata/_custom_type_script = "uid://dkp1runwb4gyr"
-
-[node name="DynamicSingleGroupValue" type="Node" parent="Enemy3/CP_Motion/FollowMotionState"]
-script = ExtResource("13_0ld40")
-group_name = "Player"
-metadata/_custom_type_script = "uid://dxshna2yqd87i"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Transmitter/CP_Area"]
+shape = SubResource("RectangleShape2D_tipki")
