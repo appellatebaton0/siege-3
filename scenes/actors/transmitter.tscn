@@ -1,0 +1,69 @@
+[gd_scene load_steps=13 format=3 uid="uid://bt8wtgdi3wc72"]
+
+[ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_2wufo"]
+[ext_resource type="PackedScene" uid="uid://dnd4kisf8wjau" path="res://scenes/components/cp_sprite.tscn" id="2_wfjmj"]
+[ext_resource type="PackedScene" uid="uid://b7m0l4xy8303h" path="res://scenes/components/cp_area.tscn" id="3_kwy0h"]
+[ext_resource type="Script" uid="uid://d25af0viaxcrw" path="res://scripts/components/cp_free.gd" id="4_wwev4"]
+[ext_resource type="Script" uid="uid://cwf1a324oi18n" path="res://scripts/components/cp_modifyargument.gd" id="5_53vs7"]
+[ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="6_iebgy"]
+[ext_resource type="Script" uid="uid://wx8iqc6tttrj" path="res://scripts/dynamic_values/int/di_modify.gd" id="7_dc5ue"]
+[ext_resource type="Script" uid="uid://bc760wnktbcy7" path="res://scripts/dynamic_values/int/di_cast.gd" id="8_o8suf"]
+[ext_resource type="Script" uid="uid://dxsyhe8y4y56p" path="res://scripts/dynamic_values/dv_spawnargument.gd" id="9_s2p25"]
+
+[sub_resource type="Gradient" id="Gradient_tefeu"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_o6xl0"]
+gradient = SubResource("Gradient_tefeu")
+width = 8
+height = 8
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tipki"]
+size = Vector2(8, 8)
+
+[node name="Transmitter" type="Node2D" groups=["Transmitter"]]
+script = ExtResource("1_2wufo")
+metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
+
+[node name="CP_Sprite" parent="." instance=ExtResource("2_wfjmj")]
+texture = SubResource("GradientTexture2D_o6xl0")
+
+[node name="CP_Area" parent="." instance=ExtResource("3_kwy0h")]
+collision_layer = 8
+collision_mask = 2
+
+[node name="FreeComponent" type="Node" parent="CP_Area"]
+script = ExtResource("4_wwev4")
+metadata/_custom_type_script = "uid://d25af0viaxcrw"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Area"]
+shape = SubResource("RectangleShape2D_tipki")
+
+[node name="ModArgumentComponent" type="Node" parent="CP_Area" node_paths=PackedStringArray("new_value", "target")]
+script = ExtResource("5_53vs7")
+target_value = "Score"
+new_value = NodePath("Add1")
+target = NodePath("DynamicSingleGroupValue")
+metadata/_custom_type_script = "uid://cwf1a324oi18n"
+
+[node name="DynamicSingleGroupValue" type="Node" parent="CP_Area/ModArgumentComponent"]
+script = ExtResource("6_iebgy")
+group_name = "Player"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
+[node name="Add1" type="Node" parent="CP_Area/ModArgumentComponent"]
+script = ExtResource("7_dc5ue")
+amount = 1.0
+metadata/_custom_type_script = "uid://wx8iqc6tttrj"
+
+[node name="DynamicCastIntValue" type="Node" parent="CP_Area/ModArgumentComponent/Add1"]
+script = ExtResource("8_o8suf")
+metadata/_custom_type_script = "uid://bc760wnktbcy7"
+
+[node name="DynamicSpawnArgumentValue" type="Node" parent="CP_Area/ModArgumentComponent/Add1/DynamicCastIntValue" node_paths=PackedStringArray("from")]
+script = ExtResource("9_s2p25")
+from = NodePath("../../../DynamicSingleGroupValue")
+target_value = "Score"
+metadata/_custom_type_script = "uid://dxsyhe8y4y56p"
+
+[connection signal="freeing" from="." to="CP_Area/ModArgumentComponent" method="modify"]
+[connection signal="collided" from="CP_Area" to="CP_Area/FreeComponent" method="free_actor"]

@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="4_sxcib"]
 
 [node name="Camera" type="Camera2D"]
-zoom = Vector2(1.6, 1.6)
+zoom = Vector2(6, 6)
 script = ExtResource("1_j8c8b")
 
 [node name="CP_Motion" parent="." instance=ExtResource("2_2fgqu")]

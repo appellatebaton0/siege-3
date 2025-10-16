@@ -1,18 +1,18 @@
-[gd_scene load_steps=13 format=4 uid="uid://chm3si0nicqxd"]
+[gd_scene load_steps=13 format=4 uid="uid://c33q1svqcbrx8"]
 
-[ext_resource type="PackedScene" uid="uid://kq0ounbc4jwp" path="res://scenes/actors/player.tscn" id="1_o5qli"]
-[ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_sugp2"]
-[ext_resource type="PackedScene" uid="uid://cjbc1gs35gjc3" path="res://scenes/actors/enemy.tscn" id="2_0wfyh"]
-[ext_resource type="PackedScene" uid="uid://bt8wtgdi3wc72" path="res://scenes/actors/transmitter.tscn" id="3_choun"]
-[ext_resource type="Script" uid="uid://dqx63yibawrhf" path="res://scripts/components/cp_spawner.gd" id="12_trceg"]
-[ext_resource type="Script" uid="uid://dfmg4s4valta2" path="res://scripts/dynamic_values/scenes/ds_random.gd" id="13_a8y0u"]
-[ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="14_a8y0u"]
-[ext_resource type="PackedScene" uid="uid://dbpr33vcwj6ec" path="res://scenes/actors/camera.tscn" id="15_jkv2x"]
-[ext_resource type="Script" uid="uid://bxcutjxfpi6gn" path="res://scripts/dynamic_values/vec2/dv2_range.gd" id="16_jbj1t"]
-[ext_resource type="Texture2D" uid="uid://ceroyuuya180i" path="res://assets/textures/tileset.tres" id="17_muem4"]
+[ext_resource type="PackedScene" uid="uid://dbpr33vcwj6ec" path="res://scenes/actors/camera.tscn" id="1_olg7q"]
+[ext_resource type="PackedScene" uid="uid://kq0ounbc4jwp" path="res://scenes/actors/player.tscn" id="2_t1rx8"]
+[ext_resource type="PackedScene" uid="uid://bt8wtgdi3wc72" path="res://scenes/actors/transmitter.tscn" id="3_8iemx"]
+[ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="4_64w2a"]
+[ext_resource type="Script" uid="uid://dqx63yibawrhf" path="res://scripts/components/cp_spawner.gd" id="5_fpun6"]
+[ext_resource type="Script" uid="uid://dfmg4s4valta2" path="res://scripts/dynamic_values/scenes/ds_random.gd" id="6_wc255"]
+[ext_resource type="PackedScene" uid="uid://cjbc1gs35gjc3" path="res://scenes/actors/enemy.tscn" id="7_arp2o"]
+[ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="8_ux5qa"]
+[ext_resource type="Script" uid="uid://bxcutjxfpi6gn" path="res://scripts/dynamic_values/vec2/dv2_range.gd" id="9_82cfe"]
+[ext_resource type="Texture2D" uid="uid://ceroyuuya180i" path="res://assets/textures/tileset.tres" id="10_gunhw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dp3eg"]
-texture = ExtResource("17_muem4")
+texture = ExtResource("10_gunhw")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 1:0/0 = 0
@@ -36,21 +36,21 @@ tile_size = Vector2i(64, 64)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_dp3eg")
 
-[node name="Main" type="Node" groups=["Main"]]
+[node name="Level" type="Node"]
 
-[node name="Camera" parent="." instance=ExtResource("15_jkv2x")]
+[node name="Camera" parent="." instance=ExtResource("1_olg7q")]
 
-[node name="Player" parent="." instance=ExtResource("1_o5qli")]
+[node name="Player" parent="." instance=ExtResource("2_t1rx8")]
 
-[node name="Transmitter" parent="." instance=ExtResource("3_choun")]
+[node name="Transmitter" parent="." instance=ExtResource("3_8iemx")]
 position = Vector2(62, 27)
 
 [node name="EnemySpawner" type="Node2D" parent="."]
-script = ExtResource("1_sugp2")
+script = ExtResource("4_64w2a")
 metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
 
 [node name="SpawnerComponent" type="Node2D" parent="EnemySpawner" node_paths=PackedStringArray("options_value", "position_value", "main")]
-script = ExtResource("12_trceg")
+script = ExtResource("5_fpun6")
 options_value = NodePath("DynamicRandomSceneValue")
 position_value = NodePath("Position")
 main = NodePath("DynamicSingleNodeValue")
@@ -61,26 +61,26 @@ spawn_interval = 10.0
 spawn_time = 9.0
 
 [node name="DynamicRandomSceneValue" type="Node" parent="EnemySpawner/SpawnerComponent"]
-script = ExtResource("13_a8y0u")
-options = Array[PackedScene]([ExtResource("2_0wfyh")])
+script = ExtResource("6_wc255")
+options = Array[PackedScene]([ExtResource("7_arp2o")])
 metadata/_custom_type_script = "uid://dfmg4s4valta2"
 
 [node name="DynamicSingleNodeValue" type="Node" parent="EnemySpawner/SpawnerComponent" node_paths=PackedStringArray("node")]
-script = ExtResource("14_a8y0u")
-node = NodePath("../../..")
+script = ExtResource("8_ux5qa")
+node = NodePath("")
 metadata/_custom_type_script = "uid://vflwvin64hae"
 
 [node name="Position" type="Node" parent="EnemySpawner/SpawnerComponent"]
-script = ExtResource("16_jbj1t")
+script = ExtResource("9_82cfe")
 minimum_values = Vector2(-2444, -975)
 maximum_values = Vector2(2168, 1066)
 
 [node name="TransmitterSpawner" type="Node2D" parent="."]
-script = ExtResource("1_sugp2")
+script = ExtResource("4_64w2a")
 metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
 
 [node name="SpawnerComponent" type="Node2D" parent="TransmitterSpawner" node_paths=PackedStringArray("options_value", "position_value", "main")]
-script = ExtResource("12_trceg")
+script = ExtResource("5_fpun6")
 options_value = NodePath("DynamicRandomSceneValue")
 position_value = NodePath("Position")
 main = NodePath("DynamicSingleNodeValue")
@@ -91,17 +91,17 @@ spawn_interval = 5.0
 spawn_time = 4.0
 
 [node name="DynamicRandomSceneValue" type="Node" parent="TransmitterSpawner/SpawnerComponent"]
-script = ExtResource("13_a8y0u")
-options = Array[PackedScene]([ExtResource("3_choun")])
+script = ExtResource("6_wc255")
+options = Array[PackedScene]([ExtResource("3_8iemx")])
 metadata/_custom_type_script = "uid://dfmg4s4valta2"
 
 [node name="DynamicSingleNodeValue" type="Node" parent="TransmitterSpawner/SpawnerComponent" node_paths=PackedStringArray("node")]
-script = ExtResource("14_a8y0u")
-node = NodePath("../../..")
+script = ExtResource("8_ux5qa")
+node = NodePath("")
 metadata/_custom_type_script = "uid://vflwvin64hae"
 
 [node name="Position" type="Node" parent="TransmitterSpawner/SpawnerComponent"]
-script = ExtResource("16_jbj1t")
+script = ExtResource("9_82cfe")
 minimum_values = Vector2(-2444, -975)
 maximum_values = Vector2(2168, 1066)
 

@@ -1,0 +1,10 @@
+[gd_resource type="CanvasTexture" load_steps=3 format=3 uid="uid://ceroyuuya180i"]
+
+[sub_resource type="Gradient" id="Gradient_kftc4"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tc2a2"]
+gradient = SubResource("Gradient_kftc4")
+fill_to = Vector2(1, 1)
+
+[resource]
+diffuse_texture = SubResource("GradientTexture2D_tc2a2")

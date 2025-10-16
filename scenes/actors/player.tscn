@@ -21,15 +21,17 @@
 [ext_resource type="Script" uid="uid://dxsyhe8y4y56p" path="res://scripts/dynamic_values/dv_spawnargument.gd" id="19_uqfkb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h5w3c"]
-size = Vector2(64, 64)
+size = Vector2(8, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0878f"]
-size = Vector2(66, 66)
+size = Vector2(9, 9)
 
 [sub_resource type="Gradient" id="Gradient_tbgi4"]
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_tefeu"]
 gradient = SubResource("Gradient_tbgi4")
+width = 8
+height = 8
 
 [sub_resource type="Gradient" id="Gradient_ya4ey"]
 offsets = PackedFloat32Array(1)
@@ -37,6 +39,8 @@ colors = PackedColorArray(1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_eb6dy"]
 gradient = SubResource("Gradient_ya4ey")
+width = 4
+height = 4
 
 [node name="Player" type="Node2D" groups=["Player"]]
 script = ExtResource("1_ypltb")
@@ -52,8 +56,8 @@ motion_mode = 1
 
 [node name="FloatControlMotionState" type="Node" parent="CP_Motion"]
 script = ExtResource("3_h5w3c")
-max_speed = 150.0
-acceleration = 20.0
+max_speed = 60.0
+friction = 3.0
 metadata/_custom_type_script = "uid://t23ay2yfroa1"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Motion"]
@@ -75,7 +79,7 @@ shape = SubResource("RectangleShape2D_0878f")
 texture = SubResource("GradientTexture2D_tefeu")
 
 [node name="EnemyBulb" type="Sprite2D" parent="."]
-position = Vector2(-33, -68)
+position = Vector2(-2, -6)
 texture = SubResource("GradientTexture2D_eb6dy")
 
 [node name="Glow" type="Node" parent="EnemyBulb" node_paths=PackedStringArray("new_value")]
@@ -114,7 +118,7 @@ metadata/_custom_type_script = "uid://b2mer0tok1pwp"
 script = ExtResource("11_0878f")
 input = NodePath("GetDistance")
 operation = 1
-amount = 1000.0
+amount = 100.0
 metadata/_custom_type_script = "uid://b2mer0tok1pwp"
 
 [node name="GetDistance" type="Node" parent="EnemyBulb/Glow/Color/Add1/Inverse/Divide"]
@@ -141,7 +145,7 @@ input = 1.0
 metadata/_custom_type_script = "uid://dm34gcq06ckof"
 
 [node name="TransmitterBulb" type="Sprite2D" parent="."]
-position = Vector2(36, -69)
+position = Vector2(2, -6)
 texture = SubResource("GradientTexture2D_eb6dy")
 
 [node name="Glow" type="Node" parent="TransmitterBulb" node_paths=PackedStringArray("new_value")]
@@ -210,32 +214,48 @@ metadata/_custom_type_script = "uid://dm34gcq06ckof"
 script = ExtResource("16_t62v4")
 metadata/_custom_type_script = "uid://cvvlcumbxn8pb"
 
-[node name="Label" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="LabelElement" type="Node" parent="Label"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Label" type="Label" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 36
+text = "ABASe"
+
+[node name="LabelElement" type="Node" parent="CanvasLayer/MarginContainer/Label"]
 script = ExtResource("17_uqfkb")
 text_format = "{0}
 {1}"
 metadata/_custom_type_script = "uid://bxjg885lu0c7y"
 
-[node name="DynamicPropertyValue" type="Node" parent="Label/LabelElement"]
+[node name="DynamicPropertyValue" type="Node" parent="CanvasLayer/MarginContainer/Label/LabelElement"]
 script = ExtResource("18_642so")
 property = "health"
 metadata/_custom_type_script = "uid://ds82ovpm2ilwi"
 
-[node name="DynamicSingleNodeValue" type="Node" parent="Label/LabelElement/DynamicPropertyValue" node_paths=PackedStringArray("node")]
+[node name="DynamicSingleNodeValue" type="Node" parent="CanvasLayer/MarginContainer/Label/LabelElement/DynamicPropertyValue" node_paths=PackedStringArray("node")]
 script = ExtResource("6_t62v4")
-node = NodePath("../../../../HealthComponent")
+node = NodePath("../../../../../../HealthComponent")
 metadata/_custom_type_script = "uid://vflwvin64hae"
 
-[node name="Score" type="Node" parent="Label/LabelElement"]
+[node name="Score" type="Node" parent="CanvasLayer/MarginContainer/Label/LabelElement"]
 script = ExtResource("19_uqfkb")
 target_value = "Score"
 metadata/_custom_type_script = "uid://dxsyhe8y4y56p"
 
-[node name="DynamicSingleNodeValue" type="Node" parent="Label/LabelElement/Score" node_paths=PackedStringArray("node")]
+[node name="DynamicSingleNodeValue" type="Node" parent="CanvasLayer/MarginContainer/Label/LabelElement/Score" node_paths=PackedStringArray("node")]
 script = ExtResource("6_t62v4")
-node = NodePath("../../../..")
+node = NodePath("../../../../../..")
 metadata/_custom_type_script = "uid://vflwvin64hae"

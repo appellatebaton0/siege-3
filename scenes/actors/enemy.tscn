@@ -10,23 +10,22 @@
 [ext_resource type="Script" uid="uid://ctcsf3eyei58r" path="res://scripts/components/damage/dcp_single.gd" id="8_emg7u"]
 [ext_resource type="Script" uid="uid://ci1ipf7vnsa63" path="res://scripts/components/area_components/acp_knockback.gd" id="8_w7k3k"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gwjt0"]
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w7k3k"]
+size = Vector2(9, 9)
+
 [sub_resource type="Gradient" id="Gradient_o6xl0"]
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_tipki"]
 gradient = SubResource("Gradient_o6xl0")
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_gwjt0"]
-size = Vector2(64, 64)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_w7k3k"]
-size = Vector2(66, 66)
+width = 8
+height = 8
 
 [node name="Enemy" type="Node2D" groups=["Enemy"]]
 script = ExtResource("1_c4w8v")
 metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
-
-[node name="CP_Sprite" parent="." instance=ExtResource("2_xwavj")]
-texture = SubResource("GradientTexture2D_tipki")
 
 [node name="CP_Motion" parent="." instance=ExtResource("3_nenq2")]
 collision_layer = 4
@@ -35,6 +34,7 @@ motion_mode = 1
 
 [node name="FloatMotionState" type="Node" parent="CP_Motion"]
 script = ExtResource("4_w7k3k")
+max_speed = 40.0
 
 [node name="DynamicSingleGroupValue" type="Node" parent="CP_Motion/FloatMotionState"]
 script = ExtResource("5_ipns3")
@@ -63,6 +63,9 @@ metadata/_custom_type_script = "uid://ctcsf3eyei58r"
 
 [node name="KnockbackAreaSubComponent" type="Node" parent="CP_Area"]
 script = ExtResource("8_w7k3k")
-amount = 200.0
+amount = 40.0
 collision_mask = 2
 metadata/_custom_type_script = "uid://ci1ipf7vnsa63"
+
+[node name="CP_Sprite" parent="." instance=ExtResource("2_xwavj")]
+texture = SubResource("GradientTexture2D_tipki")
