@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cjxtdojc775br" path="res://scripts/components/area_components/acp_hurtbox.gd" id="5_0878f"]
 [ext_resource type="Script" uid="uid://baaddbg8rgq1l" path="res://scripts/components/cp_modifyproperty.gd" id="5_dferu"]
 [ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="6_t62v4"]
+[ext_resource type="Script" uid="uid://comgodelutnps" path="res://scripts/components/cp_look.gd" id="7_642so"]
 [ext_resource type="Script" uid="uid://vwqwacuucle4" path="res://scripts/dynamic_values/condition/dc_manual.gd" id="7_uqfkb"]
 [ext_resource type="Script" uid="uid://cm02hnecokipo" path="res://scripts/dynamic_values/color/dcol_float.gd" id="8_642so"]
 [ext_resource type="Script" uid="uid://y2s40vn51wpl" path="res://scripts/dynamic_values/float/df_distance.gd" id="10_6a6mx"]
@@ -16,9 +17,8 @@
 [ext_resource type="Script" uid="uid://c0rn4mlevdrf2" path="res://scripts/dynamic_values/nodes/dN_group.gd" id="12_ds2sr"]
 [ext_resource type="Script" uid="uid://dm34gcq06ckof" path="res://scripts/dynamic_values/float/df_manual.gd" id="13_6xqls"]
 [ext_resource type="Script" uid="uid://cvvlcumbxn8pb" path="res://scripts/components/cp_health.gd" id="16_t62v4"]
-[ext_resource type="Script" uid="uid://bxjg885lu0c7y" path="res://scripts/components/elements/em_label.gd" id="17_uqfkb"]
-[ext_resource type="Script" uid="uid://ds82ovpm2ilwi" path="res://scripts/dynamic_values/dv_property.gd" id="18_642so"]
-[ext_resource type="Script" uid="uid://dxsyhe8y4y56p" path="res://scripts/dynamic_values/dv_spawnargument.gd" id="19_uqfkb"]
+[ext_resource type="Script" uid="uid://b3tnj82s4tfu" path="res://scripts/components/elements/em_animator.gd" id="18_6a6mx"]
+[ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="19_j3wsw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h5w3c"]
 size = Vector2(8, 8)
@@ -78,184 +78,159 @@ shape = SubResource("RectangleShape2D_0878f")
 [node name="CP_Sprite" parent="." instance=ExtResource("4_0878f")]
 texture = SubResource("GradientTexture2D_tefeu")
 
-[node name="EnemyBulb" type="Sprite2D" parent="."]
-position = Vector2(-2, -6)
+[node name="EnemyIndicator" type="Node2D" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("7_642so")
+target = NodePath("EnemyBulb/Glow/Color/Add1/Inverse/Divide/GetDistance/ClosestEnemy")
+
+[node name="EnemyBulb" type="Sprite2D" parent="EnemyIndicator"]
+position = Vector2(7, 0)
 texture = SubResource("GradientTexture2D_eb6dy")
 
-[node name="Glow" type="Node" parent="EnemyBulb" node_paths=PackedStringArray("new_value")]
+[node name="Glow" type="Node" parent="EnemyIndicator/EnemyBulb" node_paths=PackedStringArray("new_value")]
 script = ExtResource("5_dferu")
 property = "modulate"
 new_value = NodePath("Color")
 metadata/_custom_type_script = "uid://baaddbg8rgq1l"
 
-[node name="GetBulb" type="Node" parent="EnemyBulb/Glow" node_paths=PackedStringArray("node")]
+[node name="GetBulb" type="Node" parent="EnemyIndicator/EnemyBulb/Glow" node_paths=PackedStringArray("node")]
 script = ExtResource("6_t62v4")
 node = NodePath("../..")
 metadata/_custom_type_script = "uid://vflwvin64hae"
 
-[node name="Always" type="Node" parent="EnemyBulb/Glow"]
+[node name="Always" type="Node" parent="EnemyIndicator/EnemyBulb/Glow"]
 script = ExtResource("7_uqfkb")
 metadata/_custom_type_script = "uid://vwqwacuucle4"
 
-[node name="Color" type="Node" parent="EnemyBulb/Glow" node_paths=PackedStringArray("red", "alpha")]
+[node name="Color" type="Node" parent="EnemyIndicator/EnemyBulb/Glow" node_paths=PackedStringArray("red", "alpha")]
 script = ExtResource("8_642so")
 red = NodePath("Add1")
 alpha = NodePath("1")
 metadata/_custom_type_script = "uid://cm02hnecokipo"
 
-[node name="Add1" type="Node" parent="EnemyBulb/Glow/Color"]
+[node name="Add1" type="Node" parent="EnemyIndicator/EnemyBulb/Glow/Color"]
 script = ExtResource("11_0878f")
 amount = 1.0
 metadata/_custom_type_script = "uid://b2mer0tok1pwp"
 
-[node name="Inverse" type="Node" parent="EnemyBulb/Glow/Color/Add1"]
+[node name="Inverse" type="Node" parent="EnemyIndicator/EnemyBulb/Glow/Color/Add1"]
 script = ExtResource("11_0878f")
 operation = 2
 amount = -1.0
 metadata/_custom_type_script = "uid://b2mer0tok1pwp"
 
-[node name="Divide" type="Node" parent="EnemyBulb/Glow/Color/Add1/Inverse" node_paths=PackedStringArray("input")]
+[node name="Divide" type="Node" parent="EnemyIndicator/EnemyBulb/Glow/Color/Add1/Inverse" node_paths=PackedStringArray("input")]
 script = ExtResource("11_0878f")
 input = NodePath("GetDistance")
 operation = 1
 amount = 100.0
 metadata/_custom_type_script = "uid://b2mer0tok1pwp"
 
-[node name="GetDistance" type="Node" parent="EnemyBulb/Glow/Color/Add1/Inverse/Divide"]
+[node name="GetDistance" type="Node" parent="EnemyIndicator/EnemyBulb/Glow/Color/Add1/Inverse/Divide"]
 script = ExtResource("10_6a6mx")
 
-[node name="GetPlayer" type="Node" parent="EnemyBulb/Glow/Color/Add1/Inverse/Divide/GetDistance" node_paths=PackedStringArray("node")]
+[node name="GetPlayer" type="Node" parent="EnemyIndicator/EnemyBulb/Glow/Color/Add1/Inverse/Divide/GetDistance" node_paths=PackedStringArray("node")]
 script = ExtResource("6_t62v4")
-node = NodePath("../../../../../../../..")
+node = NodePath("../../../../../../../../..")
 metadata/_custom_type_script = "uid://vflwvin64hae"
 
-[node name="ClosestEnemy" type="Node" parent="EnemyBulb/Glow/Color/Add1/Inverse/Divide/GetDistance" node_paths=PackedStringArray("to")]
+[node name="ClosestEnemy" type="Node" parent="EnemyIndicator/EnemyBulb/Glow/Color/Add1/Inverse/Divide/GetDistance" node_paths=PackedStringArray("to")]
 script = ExtResource("11_j3wsw")
 to = NodePath("../GetPlayer")
 type = 0
 
-[node name="Enemies" type="Node" parent="EnemyBulb/Glow/Color/Add1/Inverse/Divide/GetDistance/ClosestEnemy"]
+[node name="Enemies" type="Node" parent="EnemyIndicator/EnemyBulb/Glow/Color/Add1/Inverse/Divide/GetDistance/ClosestEnemy"]
 script = ExtResource("12_ds2sr")
 group_name = "Enemy"
 metadata/_custom_type_script = "uid://c0rn4mlevdrf2"
 
-[node name="1" type="Node" parent="EnemyBulb/Glow/Color"]
+[node name="1" type="Node" parent="EnemyIndicator/EnemyBulb/Glow/Color"]
 script = ExtResource("13_6xqls")
 input = 1.0
 metadata/_custom_type_script = "uid://dm34gcq06ckof"
 
-[node name="TransmitterBulb" type="Sprite2D" parent="."]
-position = Vector2(2, -6)
+[node name="TransmitterIndicator" type="Node2D" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("7_642so")
+target = NodePath("TransmitterBulb/Glow/Color/Add1/Inverse/Divide/GetDistance/ClosestTransmitter")
+
+[node name="TransmitterBulb" type="Sprite2D" parent="TransmitterIndicator"]
+position = Vector2(7, 0)
 texture = SubResource("GradientTexture2D_eb6dy")
 
-[node name="Glow" type="Node" parent="TransmitterBulb" node_paths=PackedStringArray("new_value")]
+[node name="Glow" type="Node" parent="TransmitterIndicator/TransmitterBulb" node_paths=PackedStringArray("new_value")]
 script = ExtResource("5_dferu")
 property = "modulate"
 new_value = NodePath("Color")
 metadata/_custom_type_script = "uid://baaddbg8rgq1l"
 
-[node name="GetBulb" type="Node" parent="TransmitterBulb/Glow" node_paths=PackedStringArray("node")]
+[node name="GetBulb" type="Node" parent="TransmitterIndicator/TransmitterBulb/Glow" node_paths=PackedStringArray("node")]
 script = ExtResource("6_t62v4")
 node = NodePath("../..")
 metadata/_custom_type_script = "uid://vflwvin64hae"
 
-[node name="Always" type="Node" parent="TransmitterBulb/Glow"]
+[node name="Always" type="Node" parent="TransmitterIndicator/TransmitterBulb/Glow"]
 script = ExtResource("7_uqfkb")
 metadata/_custom_type_script = "uid://vwqwacuucle4"
 
-[node name="Color" type="Node" parent="TransmitterBulb/Glow" node_paths=PackedStringArray("green", "alpha")]
+[node name="Color" type="Node" parent="TransmitterIndicator/TransmitterBulb/Glow" node_paths=PackedStringArray("green", "alpha")]
 script = ExtResource("8_642so")
 green = NodePath("Add1")
 alpha = NodePath("1")
 metadata/_custom_type_script = "uid://cm02hnecokipo"
 
-[node name="Add1" type="Node" parent="TransmitterBulb/Glow/Color"]
+[node name="Add1" type="Node" parent="TransmitterIndicator/TransmitterBulb/Glow/Color"]
 script = ExtResource("11_0878f")
 amount = 1.0
 metadata/_custom_type_script = "uid://b2mer0tok1pwp"
 
-[node name="Inverse" type="Node" parent="TransmitterBulb/Glow/Color/Add1"]
+[node name="Inverse" type="Node" parent="TransmitterIndicator/TransmitterBulb/Glow/Color/Add1"]
 script = ExtResource("11_0878f")
 operation = 2
 amount = -1.0
 metadata/_custom_type_script = "uid://b2mer0tok1pwp"
 
-[node name="Divide" type="Node" parent="TransmitterBulb/Glow/Color/Add1/Inverse" node_paths=PackedStringArray("input")]
+[node name="Divide" type="Node" parent="TransmitterIndicator/TransmitterBulb/Glow/Color/Add1/Inverse" node_paths=PackedStringArray("input")]
 script = ExtResource("11_0878f")
 input = NodePath("GetDistance")
 operation = 1
-amount = 1000.0
+amount = 2000.0
 metadata/_custom_type_script = "uid://b2mer0tok1pwp"
 
-[node name="GetDistance" type="Node" parent="TransmitterBulb/Glow/Color/Add1/Inverse/Divide"]
+[node name="GetDistance" type="Node" parent="TransmitterIndicator/TransmitterBulb/Glow/Color/Add1/Inverse/Divide"]
 script = ExtResource("10_6a6mx")
 
-[node name="GetPlayer" type="Node" parent="TransmitterBulb/Glow/Color/Add1/Inverse/Divide/GetDistance" node_paths=PackedStringArray("node")]
+[node name="GetPlayer" type="Node" parent="TransmitterIndicator/TransmitterBulb/Glow/Color/Add1/Inverse/Divide/GetDistance" node_paths=PackedStringArray("node")]
 script = ExtResource("6_t62v4")
-node = NodePath("../../../../../../../..")
+node = NodePath("../../../../../../../../..")
 metadata/_custom_type_script = "uid://vflwvin64hae"
 
-[node name="ClosestTransmitter" type="Node" parent="TransmitterBulb/Glow/Color/Add1/Inverse/Divide/GetDistance" node_paths=PackedStringArray("to")]
+[node name="ClosestTransmitter" type="Node" parent="TransmitterIndicator/TransmitterBulb/Glow/Color/Add1/Inverse/Divide/GetDistance" node_paths=PackedStringArray("to")]
 script = ExtResource("11_j3wsw")
 to = NodePath("../GetPlayer")
 type = 0
 
-[node name="Transmitters" type="Node" parent="TransmitterBulb/Glow/Color/Add1/Inverse/Divide/GetDistance/ClosestTransmitter"]
+[node name="Transmitters" type="Node" parent="TransmitterIndicator/TransmitterBulb/Glow/Color/Add1/Inverse/Divide/GetDistance/ClosestTransmitter"]
 script = ExtResource("12_ds2sr")
 group_name = "Transmitter"
 metadata/_custom_type_script = "uid://c0rn4mlevdrf2"
 
-[node name="1" type="Node" parent="TransmitterBulb/Glow/Color"]
+[node name="1" type="Node" parent="TransmitterIndicator/TransmitterBulb/Glow/Color"]
 script = ExtResource("13_6xqls")
 input = 1.0
 metadata/_custom_type_script = "uid://dm34gcq06ckof"
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("16_t62v4")
+health = 6.0
 metadata/_custom_type_script = "uid://cvvlcumbxn8pb"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="AnimatorElement" type="Node" parent="HealthComponent"]
+script = ExtResource("18_6a6mx")
+animation_name = "lost"
+metadata/_custom_type_script = "uid://b3tnj82s4tfu"
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
+[node name="DynamicSingleGroupValue" type="Node" parent="HealthComponent/AnimatorElement"]
+script = ExtResource("19_j3wsw")
+group_name = "Animator"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
 
-[node name="Label" type="Label" parent="CanvasLayer/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme_override_font_sizes/font_size = 36
-text = "ABASe"
-
-[node name="LabelElement" type="Node" parent="CanvasLayer/MarginContainer/Label"]
-script = ExtResource("17_uqfkb")
-text_format = "{0}
-{1}"
-metadata/_custom_type_script = "uid://bxjg885lu0c7y"
-
-[node name="DynamicPropertyValue" type="Node" parent="CanvasLayer/MarginContainer/Label/LabelElement"]
-script = ExtResource("18_642so")
-property = "health"
-metadata/_custom_type_script = "uid://ds82ovpm2ilwi"
-
-[node name="DynamicSingleNodeValue" type="Node" parent="CanvasLayer/MarginContainer/Label/LabelElement/DynamicPropertyValue" node_paths=PackedStringArray("node")]
-script = ExtResource("6_t62v4")
-node = NodePath("../../../../../../HealthComponent")
-metadata/_custom_type_script = "uid://vflwvin64hae"
-
-[node name="Score" type="Node" parent="CanvasLayer/MarginContainer/Label/LabelElement"]
-script = ExtResource("19_uqfkb")
-target_value = "Score"
-metadata/_custom_type_script = "uid://dxsyhe8y4y56p"
-
-[node name="DynamicSingleNodeValue" type="Node" parent="CanvasLayer/MarginContainer/Label/LabelElement/Score" node_paths=PackedStringArray("node")]
-script = ExtResource("6_t62v4")
-node = NodePath("../../../../../..")
-metadata/_custom_type_script = "uid://vflwvin64hae"
+[connection signal="health_reached_zero" from="HealthComponent" to="HealthComponent/AnimatorElement" method="animate"]

@@ -9,7 +9,7 @@ enum comparisons{GREATER_THAN, LESS_THAN, GREATER_OR_EQUAL, LESS_OR_EQUAL, EQUAL
 @export var comparison := comparisons.EQUAL
 
 ## The value to compare the value to.
-@export var comparator := 0
+@export var comparator := 0.0
 
 func _ready() -> void:
 	if input == null:

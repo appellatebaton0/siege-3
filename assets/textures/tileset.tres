@@ -1,9 +1,12 @@
 [gd_resource type="CanvasTexture" load_steps=3 format=3 uid="uid://ceroyuuya180i"]
 
 [sub_resource type="Gradient" id="Gradient_kftc4"]
+offsets = PackedFloat32Array(0, 0.53985506, 1)
+colors = PackedColorArray(0.56078434, 0.56078434, 0.3254902, 1, 0.5615942, 0.5615942, 0.5615942, 1, 0.56078434, 0.56078434, 0.6431373, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_tc2a2"]
 gradient = SubResource("Gradient_kftc4")
+height = 128
 fill_to = Vector2(1, 1)
 
 [resource]

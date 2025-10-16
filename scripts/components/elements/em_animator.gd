@@ -1,5 +1,5 @@
 class_name AnimatorElement extends Element
-## Provides an in for signals to play animations.
+## Provides an in for signals to play animations through an AnimationPlayer.
 
 func _init():
 	component_id = "Animator"

@@ -1,10 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://cjbc1gs35gjc3"]
+[gd_scene load_steps=16 format=3 uid="uid://cjbc1gs35gjc3"]
 
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_c4w8v"]
 [ext_resource type="PackedScene" uid="uid://dnd4kisf8wjau" path="res://scenes/components/cp_sprite.tscn" id="2_xwavj"]
 [ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="3_nenq2"]
 [ext_resource type="Script" uid="uid://dmhwj4ta0ymmd" path="res://scripts/components/motion_subcomponents/motion_states/ms_float.gd" id="4_w7k3k"]
+[ext_resource type="Script" uid="uid://dvxjlj3aequd3" path="res://scripts/dynamic_values/condition/dc_inequality.gd" id="5_ho2ui"]
 [ext_resource type="Script" uid="uid://dxshna2yqd87i" path="res://scripts/dynamic_values/node/dn_singlegroup.gd" id="5_ipns3"]
+[ext_resource type="Script" uid="uid://8nqlfg7k3j3j" path="res://scripts/dynamic_values/float/df_pulse.gd" id="6_cuxde"]
 [ext_resource type="PackedScene" uid="uid://b7m0l4xy8303h" path="res://scenes/components/cp_area.tscn" id="6_iq6g4"]
 [ext_resource type="Script" uid="uid://chjx6uy3lae5m" path="res://scripts/components/area_components/acp_hitbox.gd" id="7_gwjt0"]
 [ext_resource type="Script" uid="uid://ctcsf3eyei58r" path="res://scripts/components/damage/dcp_single.gd" id="8_emg7u"]
@@ -32,14 +34,56 @@ collision_layer = 4
 collision_mask = 7
 motion_mode = 1
 
-[node name="FloatMotionState" type="Node" parent="CP_Motion"]
+[node name="FloatMotionState" type="Node" parent="CP_Motion" node_paths=PackedStringArray("switch_handles")]
 script = ExtResource("4_w7k3k")
-max_speed = 40.0
+max_speed = 10.0
+friction = 0.01
+acceleration = 0.01
+switch_handles = {
+NodePath("DynamicInequalityCondition"): NodePath("../FloatMotionState2")
+}
 
 [node name="DynamicSingleGroupValue" type="Node" parent="CP_Motion/FloatMotionState"]
 script = ExtResource("5_ipns3")
 group_name = "Player"
 metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
+[node name="DynamicInequalityCondition" type="Node" parent="CP_Motion/FloatMotionState"]
+script = ExtResource("5_ho2ui")
+comparison = 2
+comparator = 1.0
+metadata/_custom_type_script = "uid://dvxjlj3aequd3"
+
+[node name="DynamicTimerFloatValue" type="Node" parent="CP_Motion/FloatMotionState/DynamicInequalityCondition"]
+script = ExtResource("6_cuxde")
+max_time_multiplier = 5.0
+metadata/_custom_type_script = "uid://8nqlfg7k3j3j"
+
+[node name="FloatMotionState2" type="Node" parent="CP_Motion" node_paths=PackedStringArray("switch_handles")]
+script = ExtResource("4_w7k3k")
+max_speed = 75.0
+friction = 1.0
+acceleration = 1.0
+switch_handles = {
+NodePath("DynamicInequalityCondition"): NodePath("../FloatMotionState")
+}
+
+[node name="DynamicSingleGroupValue" type="Node" parent="CP_Motion/FloatMotionState2"]
+script = ExtResource("5_ipns3")
+group_name = "Player"
+metadata/_custom_type_script = "uid://dxshna2yqd87i"
+
+[node name="DynamicInequalityCondition" type="Node" parent="CP_Motion/FloatMotionState2"]
+script = ExtResource("5_ho2ui")
+comparison = 2
+comparator = 1.0
+metadata/_custom_type_script = "uid://dvxjlj3aequd3"
+
+[node name="DynamicTimerFloatValue" type="Node" parent="CP_Motion/FloatMotionState2/DynamicInequalityCondition"]
+script = ExtResource("6_cuxde")
+max_time_multiplier = 5.0
+time = 2.5
+metadata/_custom_type_script = "uid://8nqlfg7k3j3j"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Motion"]
 shape = SubResource("RectangleShape2D_gwjt0")
@@ -63,7 +107,7 @@ metadata/_custom_type_script = "uid://ctcsf3eyei58r"
 
 [node name="KnockbackAreaSubComponent" type="Node" parent="CP_Area"]
 script = ExtResource("8_w7k3k")
-amount = 40.0
+amount = 400.0
 collision_mask = 2
 metadata/_custom_type_script = "uid://ci1ipf7vnsa63"
 

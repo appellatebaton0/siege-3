@@ -19,4 +19,5 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if target != null:
-		me.look_at(target.value().global_position)
+		if target.value() != null:
+			me.look_at(target.value().global_position)

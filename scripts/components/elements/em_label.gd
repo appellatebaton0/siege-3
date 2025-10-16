@@ -33,18 +33,23 @@ func _process(_delta: float) -> void:
 	_update_label()
 
 
+var real_values:Array[Variant]
 func _update_label():
 	if len(values) < 0:
 		return
 	
-	var real_values:Array[Variant]
-	for value in values:
-		real_values.append(value.value())
+	for i in range(len(values)):
+		if values[i].value() != null:
+			if len(real_values) > i:
+				real_values[i] = values[i].value()
+			else:
+				real_values.append(values[i].value())
 	
 	var real_text:String = text_format
 	
-	for i in range(len(values)):
-		real_text = real_text.replace("{" + str(i) + "}", str(real_values[i]))
+	if len(real_values) >= len(values):
+		for i in range(len(values)):
+			real_text = real_text.replace("{" + str(i) + "}", str(real_values[i]))
 	
 	node_to_set.set(value_to_set, real_text)
 	

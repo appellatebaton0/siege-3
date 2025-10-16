@@ -25,7 +25,9 @@ func _ready() -> void:
 		var value = animator.value()
 		if value is AnimationPlayer:
 			real_animator = value
-			real_animator.animation_finished.connect(_on_finished)
+	
+	if real_animator != null:
+		real_animator.animation_finished.connect(_on_finished)
 
 func _on_finished(anim_name:String):
 	if anim_name == animation:

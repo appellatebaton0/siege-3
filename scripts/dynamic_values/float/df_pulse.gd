@@ -7,7 +7,7 @@ class_name DynamicTimerFloatValue extends DynamicFloatValue
 var last_max:float = 1.0
 ## The value to multiply the maximum by.
 @export var max_time_multiplier := 1.0
-var time:float = 0.0
+@export var time:float = 0.0 ## The starting time. Offset to offset the timer.
 ## The value to multiply the response by.
 @export var response_multiplier := 1.0
 ## Whether to move from 0 to the max, or the other way around.
@@ -21,8 +21,12 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	
+	
 	if max_time != null:
 		last_max = max_time.value() * max_time_multiplier
+	else:
+		last_max = 1 * max_time_multiplier
+	
 	
 	if reverse:
 		time = move_toward(time, last_max, delta)
