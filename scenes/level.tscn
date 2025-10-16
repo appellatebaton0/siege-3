@@ -44,6 +44,11 @@ code = "shader_type canvas_item;
 
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 
+float lerp(float a, float b, float delta)
+{
+	return a + delta * (b - a);
+}
+
 void fragment() {
 	vec4 screen = texture(SCREEN_TEXTURE, SCREEN_UV);
 	
@@ -51,7 +56,10 @@ void fragment() {
 	
 	float avg = (screen.r + screen.g + screen.b) / 3.0;
 	
-	real_color.rgb = vec3(avg);
+	real_color.r = lerp(screen.r, avg, 1.);
+	real_color.g = lerp(screen.g, avg, .6);
+	real_color.b = lerp(screen.b, avg, .6);
+	
 	real_color.a = COLOR.a;
 	
 	COLOR = real_color;
@@ -67,7 +75,8 @@ void fragment() {
 shader = SubResource("Shader_olg7q")
 
 [sub_resource type="Gradient" id="Gradient_8iemx"]
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+offsets = PackedFloat32Array(0, 0.25333333, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.123333335, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_64w2a"]
 gradient = SubResource("Gradient_8iemx")
@@ -75,7 +84,7 @@ width = 384
 height = 384
 fill = 1
 fill_from = Vector2(0.47897196, 0.5140187)
-fill_to = Vector2(0.5817757, 0.44626167)
+fill_to = Vector2(0.5911215, 0.43691587)
 
 [node name="Level" type="Node" groups=["Level"]]
 
@@ -96,7 +105,7 @@ metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
 script = ExtResource("5_fpun6")
 options_value = NodePath("Enemy")
 position_value = NodePath("Position")
-main = NodePath("GetMain")
+main = NodePath("GetLevel")
 spawn_limit = -1
 auto_spawn = true
 spawn_signal_interval = 10.0
@@ -108,9 +117,9 @@ script = ExtResource("6_wc255")
 options = Array[PackedScene]([ExtResource("7_arp2o")])
 metadata/_custom_type_script = "uid://dfmg4s4valta2"
 
-[node name="GetMain" type="Node" parent="EnemySpawner/SpawnerComponent"]
+[node name="GetLevel" type="Node" parent="EnemySpawner/SpawnerComponent"]
 script = ExtResource("8_olg7q")
-group_name = "Main"
+group_name = "Level"
 metadata/_custom_type_script = "uid://dxshna2yqd87i"
 
 [node name="Position" type="Node" parent="EnemySpawner/SpawnerComponent"]
@@ -126,7 +135,7 @@ metadata/_custom_type_script = "uid://dwh0yifrqxhcp"
 script = ExtResource("5_fpun6")
 options_value = NodePath("Transmitter")
 position_value = NodePath("Position")
-main = NodePath("../../EnemySpawner/SpawnerComponent/GetMain")
+main = NodePath("../../EnemySpawner/SpawnerComponent/GetLevel")
 spawn_limit = -1
 auto_spawn = true
 spawn_signal_interval = 5.0

@@ -61,7 +61,7 @@ metadata/_custom_type_script = "uid://8nqlfg7k3j3j"
 
 [node name="FloatMotionState2" type="Node" parent="CP_Motion" node_paths=PackedStringArray("switch_handles")]
 script = ExtResource("4_w7k3k")
-max_speed = 75.0
+max_speed = 80.0
 friction = 1.0
 acceleration = 1.0
 switch_handles = {

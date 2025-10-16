@@ -56,8 +56,9 @@ motion_mode = 1
 
 [node name="FloatControlMotionState" type="Node" parent="CP_Motion"]
 script = ExtResource("3_h5w3c")
-max_speed = 60.0
-friction = 3.0
+max_speed = 100.0
+friction = 15.0
+acceleration = 25.0
 metadata/_custom_type_script = "uid://t23ay2yfroa1"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CP_Motion"]

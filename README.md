@@ -15,5 +15,9 @@ I'm thinking an arcade game where you have to collect transmitters in the dark?
 - There's no lose condition yet, or UI for that matter.
 ### Wednesday -> Spawners
 - I got the spawners working as I want them, and not much else...
-### Thurday -> UI and Losing
-- I'm working on getting the UI and lose condition done today, and then polishing fr/sa/su
+### Thurday -> MVP
+- The UI is done, just a basic start screen and lose screen.
+- Losing is done, it's literally just running the losescreen animation when the health hits zero
+- I've got the shader set up, though I'm definitely going to play with the effect a bit
+    - Can't decide whether to do full grayscale, some lerp between color and grayscale, or what...
+- I changed how the Enemies follow the player to be a big dash, then they slide along in that direction for a bit. I... might make some silly animation for it, we'll see
