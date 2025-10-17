@@ -11,6 +11,7 @@ func _init() -> void:
 @export var condition_ties:Dictionary[DynamicCondition, String]
 @export var flip_h_condition:DynamicCondition ## Flips horizontally if true
 @export var flip_v_condition:DynamicCondition ## Flips vertically if true
+@export var speed_scale:DynamicFloatValue
 
 func _ready():
 	if global_animation != null:
@@ -28,6 +29,6 @@ func _process(_delta: float) -> void:
 	if condition_ties != null:
 		for tie in condition_ties:
 			if tie.value() and me.sprite_frames.has_animation(condition_ties[tie]):
-				me.play(condition_ties[tie])
+				me.play(condition_ties[tie], 1.0 if speed_scale == null else speed_scale.value())
 				break
 				

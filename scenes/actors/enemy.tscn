@@ -1,7 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://cjbc1gs35gjc3"]
+[gd_scene load_steps=27 format=3 uid="uid://cjbc1gs35gjc3"]
 
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_c4w8v"]
-[ext_resource type="PackedScene" uid="uid://dnd4kisf8wjau" path="res://scenes/components/cp_sprite.tscn" id="2_xwavj"]
 [ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="3_nenq2"]
 [ext_resource type="Script" uid="uid://dmhwj4ta0ymmd" path="res://scripts/components/motion_subcomponents/motion_states/ms_float.gd" id="4_w7k3k"]
 [ext_resource type="Script" uid="uid://dvxjlj3aequd3" path="res://scripts/dynamic_values/condition/dc_inequality.gd" id="5_ho2ui"]
@@ -11,19 +10,57 @@
 [ext_resource type="Script" uid="uid://chjx6uy3lae5m" path="res://scripts/components/area_components/acp_hitbox.gd" id="7_gwjt0"]
 [ext_resource type="Script" uid="uid://ctcsf3eyei58r" path="res://scripts/components/damage/dcp_single.gd" id="8_emg7u"]
 [ext_resource type="Script" uid="uid://ci1ipf7vnsa63" path="res://scripts/components/area_components/acp_knockback.gd" id="8_w7k3k"]
+[ext_resource type="PackedScene" uid="uid://208ojfrjlttc" path="res://scenes/components/cp_animatedsprite.tscn" id="11_17mxg"]
+[ext_resource type="Texture2D" uid="uid://vwc8t3mwc0aw" path="res://assets/textures/enemy.png" id="12_833af"]
+[ext_resource type="Script" uid="uid://bibj6mktsnd8n" path="res://scripts/dynamic_values/condition/dc_not.gd" id="13_833af"]
+[ext_resource type="Script" uid="uid://c3lp8v776obwx" path="res://scripts/dynamic_values/condition/dc_cast.gd" id="13_cdksu"]
+[ext_resource type="Script" uid="uid://ds82ovpm2ilwi" path="res://scripts/dynamic_values/dv_property.gd" id="14_jg7v1"]
+[ext_resource type="Script" uid="uid://vflwvin64hae" path="res://scripts/dynamic_values/node/dn_node.gd" id="15_hfgxc"]
+[ext_resource type="Script" uid="uid://b2mer0tok1pwp" path="res://scripts/dynamic_values/float/df_modify.gd" id="17_hfgxc"]
+[ext_resource type="Script" uid="uid://dexkw3hkjf8ks" path="res://scripts/dynamic_values/float/df_vectorsum.gd" id="18_hfgxc"]
+[ext_resource type="Script" uid="uid://dc01byv28y07a" path="res://scripts/dynamic_values/vec2/dv2_cast.gd" id="19_jq8pn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gwjt0"]
-size = Vector2(8, 8)
+size = Vector2(6, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w7k3k"]
-size = Vector2(9, 9)
+size = Vector2(8, 9)
 
-[sub_resource type="Gradient" id="Gradient_o6xl0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_gprx2"]
+atlas = ExtResource("12_833af")
+region = Rect2(0, 0, 8, 8)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_tipki"]
-gradient = SubResource("Gradient_o6xl0")
-width = 8
-height = 8
+[sub_resource type="AtlasTexture" id="AtlasTexture_jq8pn"]
+atlas = ExtResource("12_833af")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jxyl7"]
+atlas = ExtResource("12_833af")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dxe2w"]
+atlas = ExtResource("12_833af")
+region = Rect2(16, 0, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hucar"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gprx2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jq8pn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jxyl7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dxe2w")
+}],
+"loop": true,
+"name": &"default",
+"speed": 13.0
+}]
 
 [node name="Enemy" type="Node2D" groups=["Enemy"]]
 script = ExtResource("1_c4w8v")
@@ -111,5 +148,49 @@ amount = 400.0
 collision_mask = 2
 metadata/_custom_type_script = "uid://ci1ipf7vnsa63"
 
-[node name="CP_Sprite" parent="." instance=ExtResource("2_xwavj")]
-texture = SubResource("GradientTexture2D_tipki")
+[node name="CP_AnimatedSprite" parent="." node_paths=PackedStringArray("flip_h_condition", "speed_scale") instance=ExtResource("11_17mxg")]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_hucar")
+autoplay = "default"
+frame_progress = 0.39896062
+speed_scale = Object(Node,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"physics_interpolation_mode":0,"auto_translate_mode":0,"editor_description":"","script":ExtResource("17_hfgxc"),"input":null,"operation":1,"amount":100.0,"metadata/_custom_type_script":"uid://b2mer0tok1pwp")
+
+flip_h_condition = NodePath("Not")
+speed_scale = NodePath("Divide")
+
+[node name="Not" type="Node" parent="CP_AnimatedSprite"]
+script = ExtResource("13_833af")
+metadata/_custom_type_script = "uid://bibj6mktsnd8n"
+
+[node name="Cast" type="Node" parent="CP_AnimatedSprite/Not"]
+script = ExtResource("13_cdksu")
+metadata/_custom_type_script = "uid://c3lp8v776obwx"
+
+[node name="Direction" type="Node" parent="CP_AnimatedSprite/Not/Cast"]
+script = ExtResource("14_jg7v1")
+property = "direction"
+metadata/_custom_type_script = "uid://ds82ovpm2ilwi"
+
+[node name="Motion" type="Node" parent="CP_AnimatedSprite/Not/Cast/Direction" node_paths=PackedStringArray("node")]
+script = ExtResource("15_hfgxc")
+node = NodePath("../../../../../CP_Motion")
+metadata/_custom_type_script = "uid://vflwvin64hae"
+
+[node name="Divide" type="Node" parent="CP_AnimatedSprite"]
+script = ExtResource("17_hfgxc")
+operation = 1
+amount = 100.0
+metadata/_custom_type_script = "uid://b2mer0tok1pwp"
+
+[node name="Sum" type="Node" parent="CP_AnimatedSprite/Divide"]
+script = ExtResource("18_hfgxc")
+
+[node name="CastVector2" type="Node" parent="CP_AnimatedSprite/Divide/Sum"]
+script = ExtResource("19_jq8pn")
+metadata/_custom_type_script = "uid://dc01byv28y07a"
+
+[node name="Velocity" type="Node" parent="CP_AnimatedSprite/Divide/Sum/CastVector2" node_paths=PackedStringArray("input")]
+script = ExtResource("14_jg7v1")
+input = NodePath("../../../../Not/Cast/Direction/Motion")
+property = "velocity"
+metadata/_custom_type_script = "uid://ds82ovpm2ilwi"

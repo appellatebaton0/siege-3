@@ -24,6 +24,8 @@ func phys_active(delta: float) -> void:
 			
 			# If the player's holding a direction, move in that direction.
 			if direction:
+				component.direction = direction.x > 0
+				
 				character.velocity = vec2_move_towards(character.velocity, direction * max_speed, 60 * delta * acceleration)
 			else:
 				character.velocity = vec2_move_towards(character.velocity, Vector2.ZERO, 60 * delta * friction)

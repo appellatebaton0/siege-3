@@ -1,9 +1,9 @@
+res://assets/textures
+res://scripts/dynamic_values/float
 res://scenes
 res://scenes/actors
-res://assets/textures
 res://assets/textures/
 res://scripts/dynamic_values/vec2
 res://scripts/components/motion_subcomponents/motion_states
 res://scripts/components
 res://scripts/dynamic_values/node
-res://scripts/dynamic_values/float
