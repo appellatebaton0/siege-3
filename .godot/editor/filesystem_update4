@@ -1,3 +1,2 @@
-res://scenes/main.tscn
 res://scenes/actors/player.tscn
-res://scripts/components/motion_subcomponents/motion_states/cms_float.gd
+res://scenes/main.tscn

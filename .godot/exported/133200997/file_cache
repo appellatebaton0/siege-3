@@ -5,7 +5,7 @@ res://assets/textures/tileset.tres::a00e008c25e9eb6946362295a1b7e544::1760706328
 res://scenes/actors/camera.tscn::b8577904747a8d6d0e254427e8b7ece2::1760703604::res://.godot/exported/133200997/export-feb1876c7fed1134c1df86b04a6d8646-camera.scn
 res://scenes/actors/enemy.tscn::c0a7e3b1a3eb42623df08de4a64b8ccd::1760708066::res://.godot/exported/133200997/export-7d153ae28e49bf73b98f50ee5eda745f-enemy.scn
 res://scenes/actors/mouse.tscn::04814fb354f1e5df713b98febba97b6e::1760703604::res://.godot/exported/133200997/export-cd1aced7e9fc6ad320548bfc2afd16c7-mouse.scn
-res://scenes/actors/player.tscn::fe53666268bd6e4bb3367bde93232810::1760714702::res://.godot/exported/133200997/export-087d785bf5027725196895bd45adeefe-player.scn
+res://scenes/actors/player.tscn::bcb1fe74b366113f887b9ffd2e6e9a05::1760726017::res://.godot/exported/133200997/export-087d785bf5027725196895bd45adeefe-player.scn
 res://scenes/actors/transmitter.tscn::950bc78f46554a63d6465361a6c35f60::1760707977::res://.godot/exported/133200997/export-80bb39c0b69235186436d385eeeae3bf-transmitter.scn
 res://scenes/components/area_components/acp_tooltip.tscn::d0cac3ac2479231f2b891d3a55ca5608::1760703604::res://.godot/exported/133200997/export-923278552c07c3fd40b637a3bbdc4a41-acp_tooltip.scn
 res://scenes/components/cp_animatedsprite.tscn::259dbeff73b85e2cdc3091c115df1083::1760703604::res://.godot/exported/133200997/export-9ad71f553a400825a627230c388a3b24-cp_animatedsprite.scn
@@ -21,5 +21,5 @@ res://scenes/components/cp_sprite.tscn::b6c7f8ff0e8b2e973cfbdfe6c5996e62::176070
 res://scenes/components/cp_static.tscn::85d9c9bacb8a49349da003196bdda3dc::1760703604::res://.godot/exported/133200997/export-d23773584ee964cc268768bcac25fe77-cp_static.scn
 res://scenes/elements/level_button.tscn::19b306ecb3b970e6097980ad9e1a5d25::1760703604::res://.godot/exported/133200997/export-6eb0fc2571cc54dc1884e0d7dd47b09e-level_button.scn
 res://scenes/level.tscn::ad20356dd7db096865b213a56c7ad8a2::1760709697::res://.godot/exported/133200997/export-a0631f9feb269b9ee464fe0e4794e617-level.scn
-res://scenes/main.tscn::b05cfd24614d5d6a703cbb530a4aed03::1760714519::res://.godot/exported/133200997/export-3ad5c15c4f3250da0cc7c1af1770d85f-main.scn
+res://scenes/main.tscn::098e61c26718ddc407ab5f331b0c7e26::1760726018::res://.godot/exported/133200997/export-3ad5c15c4f3250da0cc7c1af1770d85f-main.scn
 res://default_bus_layout.tres::8bc44be399ae68d5f9afb7d8084682d8::1760703604::res://.godot/exported/133200997/export-19246414aa9fb561ced4b8dce477acec-default_bus_layout.res

@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://kq0ounbc4jwp"]
+[gd_scene load_steps=45 format=3 uid="uid://kq0ounbc4jwp"]
 
 [ext_resource type="Script" uid="uid://dwh0yifrqxhcp" path="res://scripts/actor.gd" id="1_ypltb"]
 [ext_resource type="PackedScene" uid="uid://byojuvig761hd" path="res://scenes/components/cp_motion.tscn" id="2_nmlhc"]
@@ -29,6 +29,7 @@
 [ext_resource type="Script" uid="uid://dvxjlj3aequd3" path="res://scripts/dynamic_values/condition/dc_inequality.gd" id="26_366ld"]
 [ext_resource type="Script" uid="uid://d25af0viaxcrw" path="res://scripts/components/cp_free.gd" id="28_18oyn"]
 [ext_resource type="Texture2D" uid="uid://xih4tunwx533" path="res://assets/textures/healthbar.png" id="29_f6erl"]
+[ext_resource type="FontFile" uid="uid://ccnkq58jba3d0" path="res://assets/fonts/PixelDigivolve-mOm9.ttf" id="30_8pjo5"]
 [ext_resource type="Script" uid="uid://bxjg885lu0c7y" path="res://scripts/components/elements/em_label.gd" id="30_366ld"]
 [ext_resource type="Script" uid="uid://dxsyhe8y4y56p" path="res://scripts/dynamic_values/dv_spawnargument.gd" id="31_8pjo5"]
 
@@ -427,7 +428,8 @@ metadata/_custom_type_script = "uid://vwqwacuucle4"
 
 [node name="Label" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 21
+theme_override_fonts/font = ExtResource("30_8pjo5")
+theme_override_font_sizes/font_size = 26
 text = "Score: 0"
 
 [node name="LabelElement" type="Node" parent="CanvasLayer/MarginContainer/VBoxContainer/Label"]

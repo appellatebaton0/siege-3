@@ -1,5 +1,6 @@
-[gd_scene load_steps=20 format=3 uid="uid://chm3si0nicqxd"]
+[gd_scene load_steps=21 format=3 uid="uid://chm3si0nicqxd"]
 
+[ext_resource type="FontFile" uid="uid://ccnkq58jba3d0" path="res://assets/fonts/PixelDigivolve-mOm9.ttf" id="1_choun"]
 [ext_resource type="PackedScene" uid="uid://c33q1svqcbrx8" path="res://scenes/level.tscn" id="1_o5qli"]
 [ext_resource type="Script" uid="uid://b3tnj82s4tfu" path="res://scripts/components/elements/em_animator.gd" id="2_tbgi4"]
 [ext_resource type="Script" uid="uid://wxua6trhimab" path="res://scripts/components/cp_add.gd" id="4_tefeu"]
@@ -43,9 +44,11 @@ border_width_bottom = 18
 border_color = Color(0.2511, 0.253935, 0.27, 1)
 
 [sub_resource type="Theme" id="Theme_trceg"]
+Button/fonts/font = ExtResource("1_choun")
 Button/styles/hover = SubResource("StyleBoxFlat_85g3d")
 Button/styles/normal = SubResource("StyleBoxFlat_choun")
 Button/styles/pressed = SubResource("StyleBoxFlat_ya4ey")
+Label/fonts/font = ExtResource("1_choun")
 Panel/styles/panel = SubResource("StyleBoxFlat_eb6dy")
 
 [sub_resource type="Animation" id="Animation_tipki"]
@@ -194,8 +197,8 @@ theme_override_constants/separation = 74
 [node name="Label" type="Label" parent="CanvasLayer/UI/Start/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/font_size = 66
-text = "[SIEGE WEEK 3]"
+theme_override_font_sizes/font_size = 76
+text = "Electrolocation"
 horizontal_alignment = 1
 vertical_alignment = 2
 
@@ -255,9 +258,13 @@ theme_override_constants/margin_bottom = 125
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/LossScreen/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 75
 
-[node name="Label" type="Label" parent="CanvasLayer/UI/LossScreen/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/LossScreen/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/LossScreen/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_font_sizes/font_size = 66
@@ -265,7 +272,7 @@ text = "You Died!"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="Label2" type="Label" parent="CanvasLayer/UI/LossScreen/MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="CanvasLayer/UI/LossScreen/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 46
@@ -273,18 +280,18 @@ text = "Score: 0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LabelElement" type="Node" parent="CanvasLayer/UI/LossScreen/MarginContainer/VBoxContainer/Label2"]
+[node name="LabelElement" type="Node" parent="CanvasLayer/UI/LossScreen/MarginContainer/VBoxContainer/VBoxContainer/Label2"]
 script = ExtResource("6_tefeu")
 text_format = "Score: {0}
 "
 metadata/_custom_type_script = "uid://bxjg885lu0c7y"
 
-[node name="DynamicSpawnArgumentValue" type="Node" parent="CanvasLayer/UI/LossScreen/MarginContainer/VBoxContainer/Label2/LabelElement"]
+[node name="DynamicSpawnArgumentValue" type="Node" parent="CanvasLayer/UI/LossScreen/MarginContainer/VBoxContainer/VBoxContainer/Label2/LabelElement"]
 script = ExtResource("10_trceg")
 target_value = "Score"
 metadata/_custom_type_script = "uid://dxsyhe8y4y56p"
 
-[node name="DynamicSingleGroupValue" type="Node" parent="CanvasLayer/UI/LossScreen/MarginContainer/VBoxContainer/Label2/LabelElement/DynamicSpawnArgumentValue"]
+[node name="DynamicSingleGroupValue" type="Node" parent="CanvasLayer/UI/LossScreen/MarginContainer/VBoxContainer/VBoxContainer/Label2/LabelElement/DynamicSpawnArgumentValue"]
 script = ExtResource("8_ya4ey")
 group_name = "Player"
 metadata/_custom_type_script = "uid://dxshna2yqd87i"
